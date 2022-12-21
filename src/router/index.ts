@@ -1,4 +1,4 @@
 import productRouter from './product.route'
-import orderRouter from './product.route'
+import orderRouter from './order.route'
 
-export default [productRouter, orderRouter]
+export  {productRouter, orderRouter}
