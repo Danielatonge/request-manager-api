@@ -22,7 +22,7 @@
       "description": "Local server"
     },
     {
-      "url": "https://your_production_url/v1/api/",
+      "url": "https://request-management-api-2132.herokuapp.com/v1/api/",
       "description": "Production Env"
     }
   ],
