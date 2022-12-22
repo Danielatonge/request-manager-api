@@ -1,0 +1,751 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Request Manager API - OpenAPI 3.0",
+    "description": "This is a sample Server based on the OpenAPI 3.0 specification. \n\nSome useful links:\n- [The Request Manager repository](https://github.com/Danielatonge/request-manager-api)",
+    "contact": {
+      "email": "danielatonge@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8090/v1/api/",
+      "description": "Local server"
+    },
+    {
+      "url": "https://your_production_url/v1/api/",
+      "description": "Production Env"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations for users"
+    },
+    {
+      "name": "order",
+      "description": "Operations on orders"
+    },
+    {
+      "name": "product",
+      "description": "Operations on products"
+    }
+  ],
+  "paths": {
+    "/order": {
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Create a new order to the store",
+        "description": "Create a new order to the store",
+        "operationId": "addOrder",
+        "requestBody": {
+          "description": "Create a new order in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderSchema"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds all orders",
+        "description": "Finds all orders",
+        "operationId": "getAllOrders",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderSchema"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/order/{id}": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Finds one orders",
+        "description": "Finds one orders",
+        "operationId": "getOneOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id values needs to be considered for filter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Update an existing order",
+        "description": "Update an existing order by Id",
+        "operationId": "updateOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id values needs to be considered for filter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update an existent order in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Deletes one orders",
+        "description": "Deletes one orders",
+        "operationId": "deleteOneOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id values needs to be considered for filter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "This creates user.",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTokenSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Login user",
+        "description": "This logs in user.",
+        "operationId": "loginUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTokenSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Create a new product to the store",
+        "description": "Create a new product to the store",
+        "operationId": "addProduct",
+        "required": true,
+        "requestBody": {
+          "description": "Create product object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProductSchema"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds all product",
+        "description": "Finds all product",
+        "operationId": "getAllProduct",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderSchema"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/product/{id}": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Finds one product",
+        "description": "Finds one product",
+        "operationId": "getOneProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id values needs to be considered for filter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Update an existing product",
+        "description": "Update an existing product by Id",
+        "operationId": "updateProduct",
+        "requestBody": {
+          "description": "Update an existent product in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Deletes one product",
+        "description": "Deletes one product",
+        "operationId": "deleteOneProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id values needs to be considered for filter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrderSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "4e77ccb0-7f89-42aa-8d08-04da9097c1a1"
+          },
+          "area": {
+            "type": "string",
+            "example": "Nashville"
+          },
+          "deliverDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-12-22T06:33:26.569Z"
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "float",
+            "example": "20.5"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int64",
+            "example": "120"
+          },
+          "status": {
+            "type": "string",
+            "description": "order status in the store",
+            "enum": [
+              "URGENT",
+              "ATTENTION",
+              "FINE"
+            ]
+          },
+          "userId": {
+            "type": "string",
+            "example": "4e77ccb0-7f89-42aa-8d08-04da9097c1a1"
+          }
+        }
+      },
+      "ProductSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "4e77ccb0-7f89-42aa-8d08-04da9097c1a1"
+          },
+          "name": {
+            "type": "string",
+            "example": "Nashville"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-12-21T15:40:21.340Z"
+          },
+          "belongsToId": {
+            "type": "string",
+            "example": "4e77ccb0-7f89-42aa-8d08-04da9097c1a1"
+          }
+        }
+      },
+      "UserSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "76ec6fdb-e323-4e7f-9566-ae104e95e7fd"
+          },
+          "username": {
+            "type": "string",
+            "example": "theUser"
+          },
+          "role": {
+            "type": "string",
+            "description": "user role",
+            "enum": [
+              "USER",
+              "ADMIN"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-12-21T15:40:21.340Z"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductSchema"
+            }
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderSchema"
+            }
+          }
+        }
+      },
+      "CreateOrderSchema": {
+        "required": [
+          "area",
+          "deliverDate",
+          "unitPrice",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "area": {
+            "type": "string",
+            "example": "Nashville"
+          },
+          "deliverDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-12-22T06:33:26.569Z"
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "float",
+            "example": "20.5"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int64",
+            "example": "120"
+          },
+          "status": {
+            "type": "string",
+            "description": "order status in the store",
+            "enum": [
+              "URGENT",
+              "ATTENTION",
+              "FINE"
+            ]
+          },
+          "userId": {
+            "type": "string",
+            "example": "4e77ccb0-7f89-42aa-8d08-04da9097c1a1"
+          }
+        }
+      },
+      "UpdateOrderSchema": {
+        "required": [
+          "area",
+          "deliverDate",
+          "unitPrice",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "area": {
+            "type": "string",
+            "example": "Nashville"
+          },
+          "deliverDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-12-22T06:33:26.569Z"
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "float",
+            "example": "20.5"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int64",
+            "example": "120"
+          },
+          "status": {
+            "type": "string",
+            "description": "order status in the store",
+            "enum": [
+              "URGENT",
+              "ATTENTION",
+              "FINE"
+            ]
+          }
+        }
+      },
+      "CreateUserSchema": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "my-name"
+          },
+          "password": {
+            "type": "string",
+            "example": "secret"
+          }
+        }
+      },
+      "CreateProductSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "product-name"
+          },
+          "belongsToId": {
+            "type": "string",
+            "example": "4e77ccb0-7f89-42aa-8d08-04da9097c1a1"
+          }
+        }
+      },
+      "UpdateProductSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "product-name"
+          }
+        }
+      },
+      "UserTokenSchema": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "jwt-token"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "Order": {
+        "description": "Pet object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OrderSchema"
+            }
+          }
+        }
+      },
+      "UserArray": {
+        "description": "List of user object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/UserSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
