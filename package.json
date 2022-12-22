@@ -9,7 +9,7 @@
     "clean": "rimraf dist/",
     "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css dist/",
     "build": "npx tsc && npm run copy-files",
-    "start": "node dist/src/index.js",
+    "start": "npm run copy-files && node dist/src/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\" "
   },
   "repository": {
@@ -33,6 +33,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash.merge": "^4.6.2",
     "morgan": "^1.10.0",
+    "swagger-ui-express": "^4.6.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
@@ -50,7 +51,7 @@
     "nodemon": "^2.0.20",
     "prisma": "^4.8.0",
     "rimraf": "^3.0.2",
-    "swagger-ui-express": "^4.6.0",
+    
     "typescript": "^4.9.4"
   },
   "engines": {
