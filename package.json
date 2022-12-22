@@ -7,9 +7,9 @@
     "test": "jest",
     "faker": "node dist/src/faker.js",
     "clean": "rimraf dist/",
-    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css dist/",
+    "copy-files": "npx copyfiles -u 1 src/**/*.html src/**/*.css dist/",
     "build": "npx tsc && npm run copy-files",
-    "start": "npm run copy-files && node dist/src/index.js",
+    "start": "node dist/src/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\" "
   },
   "repository": {
