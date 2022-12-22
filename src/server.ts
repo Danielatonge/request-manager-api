@@ -6,10 +6,13 @@ import { protect } from './middleware/authenticate'
 import { createNewUser, signin } from './controller/user.controller'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger.json'
+import path from 'path'
+import fs from 'fs/promises'
 
 const app = express()
 
 app.use(cors())
+
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -18,9 +21,8 @@ const options = {}
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
-app.get('/', (req, res) => {
-    res.status(200)
-    res.send({ message: 'working' })
+app.get('/', async (req, res) => {
+    res.sendFile(path.join(__dirname + '/../templates/index.html'))
 })
 
 app.use('/v1/api/order', orderRouter)
@@ -40,5 +42,3 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'oops, thats on us' })
 })
 export default app
-
-
