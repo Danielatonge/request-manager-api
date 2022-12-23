@@ -83,6 +83,40 @@
         "summary": "Finds all orders",
         "description": "Finds all orders",
         "operationId": "getAllOrders",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+           {
+            "name": "startAt",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/QueryOrderSortSchema"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -714,6 +748,74 @@
             "example": "jwt-token"
           }
         }
+      },
+      "QueryOrderSchema": {
+        "type": "object",
+        "properties": {
+          "search": {
+            "type": "string"
+          },
+          "startAt": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "sortBy": {
+            "schema": {
+              "$ref": "#/components/schemas/QueryOrderSortSchema"
+            }
+          }
+        }
+      },
+      "QueryOrderSortSchema": {
+        "type": "object",
+        "properties": {
+
+        
+        "id": {
+          "type": "string",
+          "enum": [
+              "ASC",
+              "DESC"
+            ]
+        },
+        "area": {
+          "type": "string",
+          "enum": [
+              "ASC",
+              "DESC"
+            ]
+        },
+        "deliverDate": {
+          "type": "string",
+          "enum": [
+              "ASC",
+              "DESC"
+            ]
+        },
+        "unitPrice": {
+          "type": "string",
+          "enum": [
+              "ASC",
+              "DESC"
+            ]
+        },
+        "quantity": {
+          "type": "string",
+          "enum": [
+              "ASC",
+              "DESC"
+            ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+              "ASC",
+              "DESC"
+            ]
+        }
+      }
       }
     },
     "requestBodies": {

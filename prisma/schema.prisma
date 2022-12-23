@@ -13,13 +13,8 @@ model User {
   username  String    @unique
   password  String
   role      USER_ROLE @default(USER)
-  products  Product[]
   orders    Order[]
-}
-
-enum USER_ROLE {
-  USER
-  ADMIN
+  products  Product[]
 }
 
 model Order {
@@ -31,14 +26,8 @@ model Order {
   unitPrice   Float
   quantity    Int
   status      ORDER_STATUS @default(FINE)
-  user        User?        @relation(fields: [userId], references: [id])
   userId      String?
-}
-
-enum ORDER_STATUS {
-  URGENT
-  ATTENTION
-  FINE
+  user        User?        @relation(fields: [userId], references: [id])
 }
 
 model Product {
@@ -49,4 +38,15 @@ model Product {
   user        User     @relation(fields: [belongsToId], references: [id])
 
   @@id([id, belongsToId])
+}
+
+enum USER_ROLE {
+  USER
+  ADMIN
+}
+
+enum ORDER_STATUS {
+  URGENT
+  ATTENTION
+  FINE
 }

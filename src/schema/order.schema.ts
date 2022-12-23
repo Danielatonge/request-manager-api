@@ -1,9 +1,14 @@
-import { object, number, string, TypeOf, date, nativeEnum } from 'zod'
+import { object, number, string, TypeOf, date, nativeEnum, coerce } from 'zod'
 
 enum ORDER_STATUS {
     URGENT = 'URGENT',
     ATTENTION = 'ATTENTION',
     FINE = 'FINE',
+}
+
+enum SORT_DIRECTION {
+    ASC = 'asc',
+    DESC = 'desc',
 }
 const createInvalidTypeError = (prop: string, type: string) =>
     `${prop} must be a ${type}`
@@ -16,7 +21,30 @@ const params = object({
     }),
 })
 
-const query = object({})
+const query = object({
+    search: string(),
+    startAt: coerce.number(),
+    limit: coerce.number(),
+
+    id: nativeEnum(SORT_DIRECTION, {
+        invalid_type_error: 'property must take either [ASC , DESC]',
+    }),
+    area: nativeEnum(SORT_DIRECTION, {
+        invalid_type_error: 'property must take either [ASC , DESC]',
+    }),
+    deliverDate: nativeEnum(SORT_DIRECTION, {
+        invalid_type_error: 'property must take either [ASC , DESC]',
+    }),
+    unitPrice: nativeEnum(SORT_DIRECTION, {
+        invalid_type_error: 'property must take either [ASC , DESC]',
+    }),
+    quantity: nativeEnum(SORT_DIRECTION, {
+        invalid_type_error: 'property must take either [ASC , DESC]',
+    }),
+    status: nativeEnum(SORT_DIRECTION, {
+        invalid_type_error: 'property must take either [ASC , DESC]',
+    }),
+}).deepPartial()
 
 const body = object({
     area: string({
@@ -66,7 +94,9 @@ export const getOneOrderSchema = object({
     params,
 })
 
-export const getAllOrderSchema = object({})
+export const getAllOrderSchema = object({
+    query,
+})
 
 export type CreateOrderSchema = TypeOf<typeof createOrderSchema>
 export type UpdateOrderSchema = TypeOf<typeof updateOrderSchema>

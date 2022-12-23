@@ -22,14 +22,14 @@ export function createRandomOrder(): CreateOrder {
         unitPrice: faker.datatype.number({ min: 1, max: 200, precision: 0.1 }),
         quantity: faker.datatype.number({ min: 20 }),
         status: faker.helpers.arrayElement(['URGENT', 'ATTENTION', 'FINE']),
-        userId: '8d5cc894-0556-491c-8766-c3770dcdd4d0',
+        userId: '76ec6fdb-e323-4e7f-9566-ae104e95e7fd',
     }
 }
 
 export function createRandomProduct(): CreateProduct {
     return {
         name: faker.commerce.productName(),
-        belongsToId: '76ec6fdb-e323-4e7f-9566-ae104e95e7fd',
+        belongsToId: '8d5cc894-0556-491c-8766-c3770dcdd4d0',
     }
 }
 
@@ -49,12 +49,12 @@ const populateProductTable = async () => {
 }
 
 export const runFaker = async () => {
-    const orderPromises = Array.from({ length: 10 }).map((i) =>
+    const orderPromises = Array.from({ length: 30 }).map((i) =>
         populateOrderTable()
     )
     await Promise.all(orderPromises)
 
-    const productPromises = Array.from({ length: 10 }).map((i) =>
+    const productPromises = Array.from({ length: 30 }).map((i) =>
         populateProductTable()
     )
     await Promise.all(productPromises)
