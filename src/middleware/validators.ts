@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator'
 import { AnyZodObject } from 'zod'
+import { BadRequestError } from '../utils/error'
 
 export const handleInputErrors = (req, res, next) => {
     const errors = validationResult(req)
@@ -7,8 +8,7 @@ export const handleInputErrors = (req, res, next) => {
     console.log(errors)
 
     if (!errors.isEmpty()) {
-        res.status(400)
-        res.json({ errors: errors.array() })
+        next(new BadRequestError('bad request', errors.array()))
     } else {
         next()
     }
@@ -23,6 +23,6 @@ export const validateRequest = (schema: AnyZodObject) => (req, res, next) => {
         })
         next()
     } catch (e) {
-        return res.status(400).json({ errors: e.errors })
+        next(new BadRequestError('bad request', e.errors))
     }
 }
