@@ -30,7 +30,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
 app.get('/', async (req, res) => {
     logger.info('landing page is being loaded')
-    res.sendFile(path.join(__dirname + '/../templates/index.html'))
+    res.sendFile(path.join(__dirname + '/templates/index.html'))
 })
 
 app.use('/v1/api/order', orderRouter)
